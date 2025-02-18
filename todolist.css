@@ -36,13 +36,13 @@ input[type="text"] {
     padding: 8px;
     font-size: 14px;
     border-radius: 4px;
-    border: 1px solid #000000;
+    border: 2px solid #000000;
     background-color: #0f0f0f;
     color: #05cdff;
 }
 
 button {
-    width: 25%;
+    width: 90%;
     background-color: #0f0f0f;
     color: #05cdff;
     border: none;
@@ -50,6 +50,11 @@ button {
     font-size: 14px;
     border-radius: 4px;
     cursor: pointer;
+}
+
+#addBtn {
+    width: 24%;
+    border: solid 2px #000000;
 }
 
 button:hover {
@@ -64,13 +69,14 @@ ul {
 }
 
 li {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
+    display: grid;
+    padding: 10px ;
     background-color: #000000;
     margin-bottom: 8px;
     border-radius: 4px;
     color: #05cdff;
+    grid-template-columns: 50% 25% 25%;
+
 }
 
 .remove-btn {
@@ -83,9 +89,6 @@ li {
 }
 
 .remove-btn:hover {
-    background-color: #777;
+    background-color: #777777;
 }
 
-#rmBtn {
-    width: 100%;
-}

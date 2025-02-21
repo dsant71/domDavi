@@ -20,9 +20,15 @@ function adicionarTarefa() {
         var botaoRemover = document.createElement('button');
         botaoRemover.innerText = 'Remover';
 
-
+        
         botaoRemover.addEventListener('click', function () {
             novaTarefa.remove();
+        });
+
+        botaoRemover.addEventListener('click', function () {
+            var contador = document.querySelectorAll("#listaTarefas li").length;
+            console.log("Contador atualizado:", contador);
+            document.getElementById('count').innerHTML = '<p> Tarefas: ' + (contador);
         });
 
         var botaoConcluir = document.createElement('button');
@@ -63,7 +69,7 @@ function adicionarTarefa() {
     }
 }
 
-document.getElementById('divLimpar').innerHTML += '<button id="btnLimpar" onclick="limparTarefas();"> Limpar </button>';
+document.getElementById('divLimpar').innerHTML += '<button id="btnLimpar" onclick="limparTarefas(), zerarContador()"> Limpar </button>';
 document.getElementById('btnLimpar').style.width = "100%";
 
 function limparTarefas(){
@@ -77,6 +83,14 @@ function limparTarefas(){
 function atualizarContador() {
     var contador = document.querySelectorAll("#listaTarefas li").length;
     console.log("Contador atualizado:", contador);
-    document.getElementById('count').innerText = (contador);
+    document.getElementById('count').innerHTML = '<p> Tarefas: ' + (contador);
   }
   
+function zerarContador() {
+    var contador = document.querySelectorAll("#listaTarefas li").length;
+    console.log("Contador atualizado:", contador);
+    document.getElementById('count').innerHTML = '<p> Tarefas: ' + (contador);
+}
+
+
+document.getElementById('count').style.color = "#05cdff"

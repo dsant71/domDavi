@@ -16,13 +16,22 @@ function adicionarTarefa() {
       
         var novaTarefa = document.createElement('li');
         novaTarefa.innerText = tarefaTexto;
-
+        novaTarefa.style.opacity = "0";
+        setTimeout(() => {
+        novaTarefa.style.transition = "opacity 1s"; 
+        novaTarefa.style.opacity = "1"}, 1);
+     
+     
         var botaoRemover = document.createElement('button');
         botaoRemover.innerText = 'Remover';
-
-        
+    
         botaoRemover.addEventListener('click', function () {
-            novaTarefa.remove();
+            novaTarefa.style.transition = "opacity 1s"; 
+            novaTarefa.style.opacity = "0"
+            
+            setTimeout(() => {
+                novaTarefa.remove()
+            }, 1000);
         });
 
         botaoRemover.addEventListener('click', function () {
@@ -75,9 +84,16 @@ document.getElementById('btnLimpar').style.width = "100%";
 function limparTarefas(){
   
     var filhos_lista = document.querySelectorAll("#listaTarefas li") 
-    for (let i = 0; i < filhos_lista.length; i++) {
-     filhos_lista[i].remove();
-  }
+    
+    document.getElementById('listaTarefas').style.transition = "opacity 1s"; 
+    document.getElementById('listaTarefas').style.opacity = "0";
+    
+    setTimeout(() => {
+        for (let i = 0; i < filhos_lista.length; i++) {
+            filhos_lista[i].remove();
+         }
+    }, 1000);
+
 }
 
 function atualizarContador() {

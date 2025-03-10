@@ -72,11 +72,12 @@ function limparTarefas(){
     for (let i = 0; i < filhos_lista.length; i++) {
      filhos_lista[i].remove();
   }
+    contador == 0;
 }
 
 function atualizarContador() {
     var contador = document.querySelectorAll("#listaTarefas li").length;
     console.log("Contador atualizado:", contador);
-    document.getElementById('count').innerText = (contador);
+    document.getElementById('count').innerText = 'Tarefas: ' (contador);
   }
   

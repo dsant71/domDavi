@@ -1,7 +1,7 @@
 function atualizarContador() {
     var contador = document.querySelectorAll("#listaTarefas li").length;
     console.log("Contador atualizado:", contador);
-    document.getElementById('count').innerText = 'Tarefas: ' + contador; // Corrige esta linha
+    document.getElementById('count').innerText = 'Tarefas: ' + contador;
 }
 
 function adicionarTarefa() {
@@ -97,3 +97,39 @@ document.getElementById('tarefaInput').addEventListener('keypress', function (e)
 });
 
 document.getElementById('count').style.color = "#05cdff";
+
+document.getElementById('divFiltros').innerHTML = `
+    <button id="btnTodas" onclick="filtrarTarefas('todas');">Todas</button>
+    <button id="btnConcluidas" onclick="filtrarTarefas('concluidas');">Concluídas</button>
+    <button id="btnNaoConcluidas" onclick="filtrarTarefas('naoConcluidas');">Não Concluídas</button>
+`;
+
+document.getElementById('divFiltros').style.display = 'grid';
+document.getElementById('divFiltros').style.gridTemplateColumns = '34% 34% 35%';
+document.getElementById('divFiltros').style.alignItems = 'center'
+
+
+function filtrarTarefas(filtro) {
+    var tarefas = document.querySelectorAll("#listaTarefas li");
+    tarefas.forEach(function(tarefa) {
+        switch (filtro) {
+            case 'todas':
+                tarefa.style.display = '';
+                break;
+            case 'concluidas':
+                if (tarefa.style.backgroundColor === 'rgb(5, 255, 93)') {
+                    tarefa.style.display = '';
+                } else {
+                    tarefa.style.display = 'none';
+                }
+                break;
+            case 'naoConcluidas':
+                if (tarefa.style.backgroundColor !== 'rgb(5, 255, 93)') {
+                    tarefa.style.display = '';
+                } else {
+                    tarefa.style.display = 'none';
+                }
+                break;
+        }
+    });
+}

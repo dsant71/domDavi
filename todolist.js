@@ -1,13 +1,17 @@
+
+
 function atualizarContador() {
     var contador = document.querySelectorAll("#listaTarefas li").length;
     console.log("Contador atualizado:", contador);
+    localStorage.setItem("contador", contador)
+    var exibe = localStorage.getItem("contador")
     document.getElementById('count').innerText = 'Tarefas: ' + contador;
 }
 
 function adicionarTarefa() {
     var tarefaTexto = document.getElementById('tarefaInput').value;
     let jaClicou;
-
+    
     if (tarefaTexto.trim() !== '') {
         var novaTarefa = document.createElement('li');
         novaTarefa.innerText = tarefaTexto;
@@ -69,6 +73,7 @@ function adicionarTarefa() {
         document.getElementById('listaTarefas').appendChild(novaTarefa);
         document.getElementById('tarefaInput').value = '';
         atualizarContador(); 
+
     } else {
         alert('Por favor, insira uma tarefa.');
     }
@@ -82,6 +87,7 @@ function limparTarefas() {
     for (let i = 0; i < filhos_lista.length; i++) {
         filhos_lista[i].remove();
     }
+    localStorage.clear("listaTarefas")
     document.getElementById('listaTarefas').style.transition = "opacity 1s"; 
     document.getElementById('listaTarefas').style.opacity = "0";
     setTimeout(() => {

@@ -1,17 +1,7 @@
-
-
-function atualizarContador() {
-    var contador = document.querySelectorAll("#listaTarefas li").length;
-    console.log("Contador atualizado:", contador);
-    localStorage.setItem("contador", contador)
-    var exibe = localStorage.getItem("contador")
-    document.getElementById('count').innerText = 'Tarefas: ' + contador;
-}
-
 function adicionarTarefa() {
     var tarefaTexto = document.getElementById('tarefaInput').value;
     let jaClicou;
-    
+
     if (tarefaTexto.trim() !== '') {
         var novaTarefa = document.createElement('li');
         novaTarefa.innerText = tarefaTexto;
@@ -51,6 +41,32 @@ function adicionarTarefa() {
             botaoConcluir.innerText = 'Não concluída';
         });
 
+        // Dropdown para definir prioridade
+        var dropdownPrioridade = document.createElement('select');
+        var opcoes = ['Alta', 'Média', 'Baixa'];
+
+        opcoes.forEach(function (prioridade) {
+            var opcao = document.createElement('option');
+            opcao.value = prioridade.toLowerCase();
+            opcao.innerText = prioridade;
+            dropdownPrioridade.appendChild(opcao);
+        });
+
+        dropdownPrioridade.addEventListener('change', function () {
+            switch (dropdownPrioridade.value) {
+                case 'alta':
+                    novaTarefa.style.borderColor = "red";
+                    break;
+                case 'media':
+                    novaTarefa.style.borderColor = "orange";
+                    break;
+                case 'baixa':
+                    novaTarefa.style.borderColor = "green";
+                    break;
+            }
+        });
+
+        novaTarefa.appendChild(dropdownPrioridade);
         novaTarefa.appendChild(botaoRemover);
         novaTarefa.appendChild(botaoConcluir);
 
@@ -61,6 +77,7 @@ function adicionarTarefa() {
 
             inputEdicao.addEventListener('blur', function () {
                 novaTarefa.innerText = inputEdicao.value;
+                novaTarefa.appendChild(dropdownPrioridade);
                 novaTarefa.appendChild(botaoRemover);
                 novaTarefa.appendChild(botaoConcluir);
             });
@@ -78,6 +95,7 @@ function adicionarTarefa() {
         alert('Por favor, insira uma tarefa.');
     }
 }
+
 
 document.getElementById('divLimpar').innerHTML += '<button id="btnLimpar" onclick="limparTarefas();"> Limpar </button>';
 document.getElementById('btnLimpar').style.width = "100%";

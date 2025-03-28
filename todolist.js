@@ -44,28 +44,31 @@ function adicionarTarefa() {
         // Dropdown para definir prioridade
         var dropdownPrioridade = document.createElement('select');
         var opcoes = ['Alta', 'Média', 'Baixa'];
-
+        
         opcoes.forEach(function (prioridade) {
             var opcao = document.createElement('option');
             opcao.value = prioridade.toLowerCase();
             opcao.innerText = prioridade;
             dropdownPrioridade.appendChild(opcao);
         });
-
+        
         dropdownPrioridade.addEventListener('change', function () {
+           
+         
+        
             switch (dropdownPrioridade.value) {
                 case 'alta':
-                    novaTarefa.style.borderColor = "red";
+                    novaTarefa.style.color = "red"; 
                     break;
-                case 'media':
-                    novaTarefa.style.borderColor = "orange";
+                case 'média':
+                    novaTarefa.style.color = "orange"; 
                     break;
                 case 'baixa':
-                    novaTarefa.style.borderColor = "green";
+                    novaTarefa.style.color = "green"; 
                     break;
             }
         });
-
+        
         novaTarefa.appendChild(dropdownPrioridade);
         novaTarefa.appendChild(botaoRemover);
         novaTarefa.appendChild(botaoConcluir);

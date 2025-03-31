@@ -41,9 +41,8 @@ function adicionarTarefa() {
             botaoConcluir.innerText = 'Não concluída';
         });
 
-        // Dropdown para definir prioridade
         var dropdownPrioridade = document.createElement('select');
-        var opcoes = ['Alta', 'Média', 'Baixa'];
+        var opcoes = ['Nenhuma', 'Alta', 'Média', 'Baixa'];
         
         opcoes.forEach(function (prioridade) {
             var opcao = document.createElement('option');
@@ -57,14 +56,24 @@ function adicionarTarefa() {
          
         
             switch (dropdownPrioridade.value) {
+                case 'nenhuma':
+                    novaTarefa.style.backgroundColor = "black"; 
+                    novaTarefa.style.color = " #05cdff"; 
+                    break;
+    
                 case 'alta':
-                    novaTarefa.style.color = "red"; 
+                    novaTarefa.style.backgroundColor = "#f34040"; 
+                    novaTarefa.style.color = "black"; 
                     break;
+
                 case 'média':
-                    novaTarefa.style.color = "orange"; 
+                    novaTarefa.style.backgroundColor = "#fca33d";
+                    novaTarefa.style.color = "black";  
                     break;
+
                 case 'baixa':
-                    novaTarefa.style.color = "green"; 
+                    novaTarefa.style.backgroundColor = "#59fc61"; 
+                    novaTarefa.style.color = "black"; 
                     break;
             }
         });

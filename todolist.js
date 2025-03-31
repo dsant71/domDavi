@@ -27,12 +27,12 @@ function adicionarTarefa() {
         botaoConcluir.innerText = 'Concluída';
 
         botaoConcluir.addEventListener('click', function () {
-            novaTarefa.style.backgroundColor = "#05ff5d";
-            novaTarefa.style.color = "black";
+            botaoConcluir.style.backgroundColor = "#05ff5d";
+            botaoConcluir.style.color = "black";
 
             if (jaClicou) {
-                novaTarefa.style.backgroundColor = "black";
-                novaTarefa.style.color = "#05cdff";
+                botaoConcluir.style.backgroundColor = "#0f0f0f";
+                botaoConcluir.style.color = "#05cdff";
                 jaClicou = false;
                 botaoConcluir.innerText = 'Concluída';
                 return;

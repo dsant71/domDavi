@@ -15,11 +15,11 @@ function adicionarTarefa() {
         botaoRemover.innerText = 'Remover';
 
         botaoRemover.addEventListener('click', function () {
+            removerTarefa(tarefaTexto);
             novaTarefa.style.transition = "opacity 1s"; 
             novaTarefa.style.opacity = "0";
             setTimeout(() => {
                 novaTarefa.remove();
-                atualizarContador(); 
             }, 1000);
         });
 
@@ -50,34 +50,28 @@ function adicionarTarefa() {
             opcao.innerText = prioridade;
             dropdownPrioridade.appendChild(opcao);
         });
-        
+
         dropdownPrioridade.addEventListener('change', function () {
-           
-         
-        
             switch (dropdownPrioridade.value) {
                 case 'nenhuma':
                     novaTarefa.style.backgroundColor = "black"; 
                     novaTarefa.style.color = " #05cdff"; 
                     break;
-    
                 case 'alta':
                     novaTarefa.style.backgroundColor = "#f34040"; 
                     novaTarefa.style.color = "black"; 
                     break;
-
                 case 'média':
                     novaTarefa.style.backgroundColor = "#fca33d";
                     novaTarefa.style.color = "black";  
                     break;
-
                 case 'baixa':
                     novaTarefa.style.backgroundColor = "#59fc61"; 
                     novaTarefa.style.color = "black"; 
                     break;
             }
         });
-        
+
         novaTarefa.appendChild(dropdownPrioridade);
         novaTarefa.appendChild(botaoRemover);
         novaTarefa.appendChild(botaoConcluir);
@@ -88,7 +82,9 @@ function adicionarTarefa() {
             inputEdicao.value = tarefaTexto;
 
             inputEdicao.addEventListener('blur', function () {
-                novaTarefa.innerText = inputEdicao.value;
+                tarefaTexto = inputEdicao.value;
+                novaTarefa.innerText = tarefaTexto;
+
                 novaTarefa.appendChild(dropdownPrioridade);
                 novaTarefa.appendChild(botaoRemover);
                 novaTarefa.appendChild(botaoConcluir);
@@ -101,29 +97,30 @@ function adicionarTarefa() {
 
         document.getElementById('listaTarefas').appendChild(novaTarefa);
         document.getElementById('tarefaInput').value = '';
-        atualizarContador(); 
+
+        salvarTarefa(tarefaTexto);
 
     } else {
         alert('Por favor, insira uma tarefa.');
     }
 }
 
+function salvarTarefa(tarefaTexto) {
+    let tarefasSalvas = JSON.parse(localStorage.getItem("tarefasSalvas")) || [];
+    tarefasSalvas.push(tarefaTexto);
+    localStorage.setItem('tarefasSalvas', JSON.stringify(tarefasSalvas));
+}
 
-document.getElementById('divLimpar').innerHTML += '<button id="btnLimpar" onclick="limparTarefas();"> Limpar </button>';
-document.getElementById('btnLimpar').style.width = "100%";
+function removerTarefa(tarefaTexto) {
+    let tarefasSalvas = JSON.parse(localStorage.getItem("tarefasSalvas")) || [];
+    tarefasSalvas = tarefasSalvas.filter(tarefa => tarefa !== tarefaTexto);
+    localStorage.setItem('tarefasSalvas', JSON.stringify(tarefasSalvas));
+}
 
 function limparTarefas() {
     var filhos_lista = document.querySelectorAll("#listaTarefas li");
-    for (let i = 0; i < filhos_lista.length; i++) {
-        filhos_lista[i].remove();
-    }
-    localStorage.clear("listaTarefas")
-    document.getElementById('listaTarefas').style.transition = "opacity 1s"; 
-    document.getElementById('listaTarefas').style.opacity = "0";
-    setTimeout(() => {
-        document.getElementById('listaTarefas').style.opacity = "1";
-        atualizarContador(); 
-    }, 1000);
+    filhos_lista.forEach(tarefa => tarefa.remove());
+    localStorage.clear();
 }
 
 document.getElementById('tarefaInput').addEventListener('keypress', function (e) {
@@ -132,7 +129,8 @@ document.getElementById('tarefaInput').addEventListener('keypress', function (e)
     }
 });
 
-document.getElementById('count').style.color = "#05cdff";
+document.getElementById('divLimpar').innerHTML += '<button id="btnLimpar" onclick="limparTarefas();">Limpar</button>';
+document.getElementById('btnLimpar').style.width = "100%";
 
 document.getElementById('divFiltros').innerHTML = `
     <button id="btnTodas" onclick="filtrarTarefas('todas');">Todas</button>
@@ -142,8 +140,7 @@ document.getElementById('divFiltros').innerHTML = `
 
 document.getElementById('divFiltros').style.display = 'grid';
 document.getElementById('divFiltros').style.gridTemplateColumns = '34% 34% 35%';
-document.getElementById('divFiltros').style.alignItems = 'center'
-
+document.getElementById('divFiltros').style.alignItems = 'center';
 
 function filtrarTarefas(filtro) {
     var tarefas = document.querySelectorAll("#listaTarefas li");

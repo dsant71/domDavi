@@ -2,14 +2,26 @@ document.addEventListener("DOMContentLoaded", function () {
     carregarTarefas();
 });
 
-function adicionarTarefa(tarefaTexto, concluida = "false", prioridade = "nenhuma") {
-    let jaClicou;
+function adicionarTarefa() {
+    var tarefaTexto = document.getElementById('tarefaInput').value;
 
+    if (tarefaTexto.trim() !== '') {
+        adicionarTarefaExistente(tarefaTexto, false, "nenhuma");
+        salvarTarefa(tarefaTexto);
+        
+        // Limpa o campo de entrada corretamente após adicionar uma tarefa
+        document.getElementById('tarefaInput').value = ''; 
+    } else {
+        alert('Por favor, insira uma tarefa.');
+    }
+}
+
+function adicionarTarefaExistente(tarefaTexto, concluida = false, prioridade = "nenhuma") {
     var novaTarefa = document.createElement('li');
     novaTarefa.innerText = tarefaTexto;
     novaTarefa.style.opacity = "0";
     novaTarefa.dataset.concluida = concluida;
-    
+
     setTimeout(() => {
         novaTarefa.style.transition = "opacity 1s"; 
         novaTarefa.style.opacity = "1";
@@ -28,7 +40,7 @@ function adicionarTarefa(tarefaTexto, concluida = "false", prioridade = "nenhuma
     });
 
     var botaoConcluir = document.createElement('button');
-    botaoConcluir.innerText = concluida === "true" ? 'Não concluída' : 'Concluída';
+    botaoConcluir.innerText = concluida ? 'Não concluída' : 'Concluída';
 
     botaoConcluir.addEventListener('click', function () {
         if (novaTarefa.dataset.concluida === "true") {
@@ -93,7 +105,7 @@ function aplicarEstiloPrioridade(tarefa, prioridade) {
 
 function salvarTarefa(tarefaTexto) {
     let tarefasSalvas = JSON.parse(localStorage.getItem("tarefasSalvas")) || [];
-    tarefasSalvas.push({ texto: tarefaTexto, concluida: "false", prioridade: "nenhuma" });
+    tarefasSalvas.push({ texto: tarefaTexto, concluida: false, prioridade: "nenhuma" });
     localStorage.setItem('tarefasSalvas', JSON.stringify(tarefasSalvas));
 }
 
@@ -113,7 +125,12 @@ function removerTarefa(tarefaTexto) {
 
 function carregarTarefas() {
     let tarefasSalvas = JSON.parse(localStorage.getItem("tarefasSalvas")) || [];
-    tarefasSalvas.forEach(tarefa => adicionarTarefa(tarefa.texto, tarefa.concluida, tarefa.prioridade));
+    tarefasSalvas.forEach(tarefa => adicionarTarefaExistente(tarefa.texto, tarefa.concluida, tarefa.prioridade));
+}
+
+function limparTarefas() {
+    document.getElementById('listaTarefas').innerHTML = '';
+    localStorage.removeItem("tarefasSalvas");
 }
 
 document.getElementById('tarefaInput').addEventListener('keypress', function (e) {
@@ -124,3 +141,38 @@ document.getElementById('tarefaInput').addEventListener('keypress', function (e)
 
 document.getElementById('divLimpar').innerHTML += '<button id="btnLimpar" onclick="limparTarefas();">Limpar</button>';
 document.getElementById('btnLimpar').style.width = "100%";
+
+document.getElementById('divFiltros').innerHTML = `
+    <button id="btnTodas" onclick="filtrarTarefas('todas');">Todas</button>
+    <button id="btnConcluidas" onclick="filtrarTarefas('concluidas');">Concluídas</button>
+    <button id="btnNaoConcluidas" onclick="filtrarTarefas('naoConcluidas');">Não Concluídas</button>
+`;
+
+document.getElementById('divFiltros').style.display = 'grid';
+document.getElementById('divFiltros').style.gridTemplateColumns = '34% 34% 35%';
+document.getElementById('divFiltros').style.alignItems = 'center';
+
+function filtrarTarefas(filtro) {
+    var tarefas = document.querySelectorAll("#listaTarefas li");
+    tarefas.forEach(function (tarefa) {
+        switch (filtro) {
+            case 'todas':
+                tarefa.style.display = '';
+                break;
+            case 'concluidas':
+                if (tarefa.dataset.concluida === "true") {
+                    tarefa.style.display = '';
+                } else {
+                    tarefa.style.display = 'none';
+                }
+                break;
+            case 'naoConcluidas':
+                if (tarefa.dataset.concluida !== "true") {
+                    tarefa.style.display = '';
+                } else {
+                    tarefa.style.display = 'none';
+                }
+                break;
+        }
+    });
+}

@@ -1,5 +1,24 @@
 document.addEventListener("DOMContentLoaded", function () {
     carregarTarefas();
+
+    let botaoAdicionar = document.getElementById("addBtn");
+    let tarefaInput = document.getElementById("tarefaInput");
+
+    botaoAdicionar.disabled = true;
+    botaoAdicionar.style.backgroundColor = "gray";
+    botaoAdicionar.style.cursor = "not-allowed";
+
+    tarefaInput.addEventListener("input", function () {
+        if (tarefaInput.value.trim() !== "") {
+            botaoAdicionar.disabled = false;
+            botaoAdicionar.style.backgroundColor = "#0f0f0f";
+            botaoAdicionar.style.cursor = "pointer";
+        } else {
+            botaoAdicionar.disabled = true;
+            botaoAdicionar.style.backgroundColor = "gray";
+            botaoAdicionar.style.cursor = "not-allowed";
+        }
+    });
 });
 
 function adicionarTarefa() {
@@ -8,8 +27,6 @@ function adicionarTarefa() {
     if (tarefaTexto.trim() !== '') {
         adicionarTarefaExistente(tarefaTexto, false, "nenhuma");
         salvarTarefa(tarefaTexto);
-        
-        // Limpa o campo de entrada corretamente após adicionar uma tarefa
         document.getElementById('tarefaInput').value = ''; 
     } else {
         alert('Por favor, insira uma tarefa.');
@@ -176,3 +193,4 @@ function filtrarTarefas(filtro) {
         }
     });
 }
+

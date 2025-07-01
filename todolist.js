@@ -1,8 +1,7 @@
 function atualizarContador() {
     var contador = document.querySelectorAll("#listaTarefas li").length;
     console.log("Contador atualizado:", contador);
-    document.getElementById('count').innerText = 'Tarefas: ' + contador; // Corrige esta linha
-}
+    document.getElementById('count').innerText = 'Tarefas: ' + contador; }
 
 function adicionarTarefa() {
     var tarefaTexto = document.getElementById('tarefaInput').value;

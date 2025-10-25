@@ -59,23 +59,27 @@ function adicionarTarefaExistente(tarefaTexto, concluida = false, prioridade = "
         novaTarefa.style.opacity = "0";
         setTimeout(() => {
             novaTarefa.remove();
+            atualizarContador()
         }, 1000);
+        contador --;
+        
+        
     });
 
     var botaoConcluir = document.createElement('button');
-    botaoConcluir.innerText = concluida ? 'Não concluída' : 'Concluída';
+    botaoConcluir.innerText = concluida ? 'Concluída' : 'Concluir';
 
     botaoConcluir.addEventListener('click', function () {
         if (novaTarefa.dataset.concluida === "true") {
             botaoConcluir.style.backgroundColor = "#0f0f0f";
             botaoConcluir.style.color = "#05cdff";
             novaTarefa.dataset.concluida = "false";
-            botaoConcluir.innerText = 'Concluída';
+            botaoConcluir.innerText = 'Concluir';
         } else {
             botaoConcluir.style.backgroundColor = "#05ff5d";
             botaoConcluir.style.color = "black";
             novaTarefa.dataset.concluida = "true";
-            botaoConcluir.innerText = 'Não concluída';
+            botaoConcluir.innerText = 'Concluída';
         }
         atualizarTarefa(tarefaTexto, novaTarefa.dataset.concluida, prioridade);
     });
@@ -144,16 +148,20 @@ function removerTarefa(tarefaTexto) {
     let tarefasSalvas = JSON.parse(localStorage.getItem("tarefasSalvas")) || [];
     tarefasSalvas = tarefasSalvas.filter(tarefa => tarefa.texto !== tarefaTexto);
     localStorage.setItem('tarefasSalvas', JSON.stringify(tarefasSalvas));
+    atualizarContador();
+    atualizarContador();
 }
 
 function carregarTarefas() {
     let tarefasSalvas = JSON.parse(localStorage.getItem("tarefasSalvas")) || [];
     tarefasSalvas.forEach(tarefa => adicionarTarefaExistente(tarefa.texto, tarefa.concluida, tarefa.prioridade));
+    atualizarContador();
 }
 
 function limparTarefas() {
     document.getElementById('listaTarefas').innerHTML = '';
     localStorage.removeItem("tarefasSalvas");
+    atualizarContador()
 }
 
 document.getElementById('tarefaInput').addEventListener('keypress', function (e) {
